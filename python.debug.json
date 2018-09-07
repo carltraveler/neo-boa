@@ -1,0 +1,23 @@
+{
+	"PythonDebugMap": [
+		{"LineNo": 1, "AvmStartNo": 1, "AvmEndNo": 1},
+		{"LineNo": 2, "AvmStartNo": 2, "AvmEndNo": 2},
+		{"LineNo": 3, "AvmStartNo": 3, "AvmEndNo": 3},
+		{"LineNo": 4, "AvmStartNo": 4, "AvmEndNo": 4},
+		{"LineNo": 5, "AvmStartNo": 5, "AvmEndNo": 5},
+		{"LineNo": 6, "AvmStartNo": 6, "AvmEndNo": 6},
+		{"LineNo": 7, "AvmStartNo": 7, "AvmEndNo": 7},
+		{"LineNo": 8, "AvmStartNo": 8, "AvmEndNo": 8},
+		{"LineNo": 9, "AvmStartNo": 9, "AvmEndNo": 9},
+		{"LineNo": 10, "AvmStartNo": 10, "AvmEndNo": 10},
+		{"LineNo": 11, "AvmStartNo": 11, "AvmEndNo": 11},
+		{"LineNo": 12, "AvmStartNo": 12, "AvmEndNo": 12},
+		{"LineNo": 13, "AvmStartNo": 13, "AvmEndNo": 13},
+		{"LineNo": 14, "AvmStartNo": 14, "AvmEndNo": 14},
+		{"LineNo": 15, "AvmStartNo": 15, "AvmEndNo": 15},
+		{"LineNo": 16, "AvmStartNo": 16, "AvmEndNo": 16},
+		{"LineNo": 17, "AvmStartNo": 17, "AvmEndNo": 17},
+		{"LineNo": 18, "AvmStartNo": 18, "AvmEndNo": 18},
+		{"LineNo": 19, "AvmStartNo": 19, "AvmEndNo": 19}
+	]
+}
