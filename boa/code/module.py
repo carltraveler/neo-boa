@@ -314,6 +314,7 @@ class Module(object):
 
         lineno = 0
         pstart = True
+        global_lineno = None
 
         for i, (key, value) in enumerate(self.all_vm_tokens.items()):
             if value.pytoken:
@@ -322,9 +323,10 @@ class Module(object):
                 to_label = None
                 from_label = '    '
 
-                if pt.lineno != lineno:
+                if pt.method_lineno + pt.lineno != global_lineno :
                     print("\n")
                     lineno = pt.lineno
+                    global_lineno = pt.lineno + pt.method_lineno
                     do_print_line_no = True
 
                 ds = ''
@@ -340,7 +342,7 @@ class Module(object):
                             pass
 
                 lno = "{:<10}".format(
-                    pt.lineno if do_print_line_no or pstart else '')
+                    pt.method_lineno + pt.lineno if do_print_line_no or pstart else '')
                 addr = "{:<5}".format(key)
                 op = "{:<20}".format(pt.instruction.name)
 
@@ -390,6 +392,8 @@ class Module(object):
         start_ofs = -1
         last_ofs = 0
         fileid = 0
+        pt = None
+        global_lineno = None
         for i, (key, value) in enumerate(self.all_vm_tokens.items()):
             if value.pytoken:
                 pt = value.pytoken
@@ -401,12 +405,15 @@ class Module(object):
                     else:
                         fileid = files[pt.file]
 
-                if pt.lineno != lineno:
+                if pt.lineno + pt.method_lineno != global_lineno:
                     if start_ofs >= 0:
-                        map.append({'start': start_ofs, 'end': key - 1, 'file': fileid, 'method': pt.method_name,
-                                    'line': lineno, 'file_line_no': pt.method_lineno + lineno})
+                        map.append({'start': start_ofs, 'end': key - 1, 'file': last_fileid, 'method': lastline_Method,
+                                    'line': lineno, 'file_line_no': global_lineno})
                     start_ofs = key
                     lineno = pt.lineno
+                    global_lineno = pt.lineno + pt.method_lineno
+                    lastline_Method = pt.method_name
+                    last_fileid = fileid
 
                 if pt.is_breakpoint:
                     breakpoints.append(start_ofs)
@@ -414,7 +421,8 @@ class Module(object):
                 last_ofs = key
 
         if last_ofs >= 0:
-            map.append({'start': start_ofs, 'end': last_ofs, 'file': fileid, 'line': lineno})
+            map.append({'start': start_ofs, 'end': key - 1, 'file': last_fileid, 'method': pt.method_name,
+                        'line': lineno, 'file_line_no': pt.method_lineno + lineno})
 
         data['map'] = map
         data['breakpoints'] = breakpoints
