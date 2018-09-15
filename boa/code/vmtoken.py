@@ -64,20 +64,20 @@ class VMTokenizer(object):
 
     total_param_and_body_count_token = None
 
-    def __init__(self, method):
+    def __init__(self, method, method_token):
         self.method = method
         self._address = 0
         self.vm_tokens = OrderedDict()
 
-        self.method_begin_items()
+        self.method_begin_items(method_token)
 
-    def method_begin_items(self):
+    def method_begin_items(self, method_token):
 
         # we just need to inssert the total number of arguments + body variables
         # which is the length of the method `scope` dictionary
         # then create a new array for the vm to store
 
-        self.convert_push_integer(self.method.stacksize)
+        self.convert_push_integer(self.method.stacksize, method_token)
         self.convert1(VMOp.NEWARRAY)
         self.convert1(VMOp.TOALTSTACK)
 
