@@ -367,14 +367,13 @@ class VMTokenizer(object):
         :param pytoken:
         :return:
         """
-        self.insert_push_integer(3)
+        self.convert_push_integer(pytoken.num_params, pytoken)
         self.convert1(VMOp.NEWSTRUCT)
         self.convert1(VMOp.TOALTSTACK)
 
-        arglen = len(self.method.args)
-        while arglen > 0:
-            arglen -= 1
-            self.convert_load_parameter(self.method.args[arglen], arglen)
+        for index in reversed(range(pytoken.num_params)):
+            self.convert_load_parameter(None, index)
+
         self.convert1(VMOp.FROMALTSTACK)
 
     def convert_built_in_list(self, pytoken):
@@ -382,8 +381,14 @@ class VMTokenizer(object):
 
         :param pytoken:
         """
-        lenfound = False
-        self.convert1(VMOp.NEWARRAY, pytoken)
+        self.convert_push_integer(pytoken.num_params, pytoken)
+        self.convert1(VMOp.NEWARRAY)
+        self.convert1(VMOp.TOALTSTACK)
+
+        for index in reversed(range(pytoken.num_params)):
+            self.convert_load_parameter(None, index)
+
+        self.convert1(VMOp.FROMALTSTACK)
 
     def convert_build_slice(self, pytoken):
 
@@ -676,7 +681,7 @@ class VMTokenizer(object):
         """
         syscall_name = None
         if op == 'print':
-            syscall_name = 'Neo.Runtime.Log'.encode('utf-8')
+            syscall_name = 'System.Runtime.Log'.encode('utf-8')
 
         elif op == 'enumerate':
             syscall_name = b'Neo.Enumerator.Create'
